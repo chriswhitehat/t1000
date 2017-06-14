@@ -38,7 +38,7 @@ default[:t1000][:opencanary][:httpproxy][:skins]['ms-issa'][:desc] = 'Microsoft 
 # SMB Pot
 ##################
 default[:t1000][:opencanary][:smb][:enabled] = 'false'
-default[:t1000][:opencanary][:smb][:configfile] = '/etc/opencanary'
+default[:t1000][:opencanary][:smb][:configfile] = '/etc/smb/smb.conf'
 default[:t1000][:opencanary][:smb][:domain] = 'corp.thinkst.com'
 default[:t1000][:opencanary][:smb][:files][:file1][:name] = '2016-Tender-Summary.pdf'
 default[:t1000][:opencanary][:smb][:files][:file1][:type] = 'PDF'
@@ -52,9 +52,9 @@ default[:t1000][:smb][:netbios_name] = 'SRV01'
 default[:t1000][:smb][:syslog_facility] = 'local6'
 default[:t1000][:smb][:syslog_path] = '/var/log/samba-audit.log'
 
-default[:t1000][:smb][:dev_share][:share_name] = 'dev_share'
-default[:t1000][:smb][:dev_share][:share_comment] = 'All the stuff!'
-default[:t1000][:smb][:dev_share][:share_path] = '/home/canary/dev_share'
+default[:t1000][:smb][:share_name] = 'dev_share'
+default[:t1000][:smb][:share_comment] = 'All the stuff!'
+default[:t1000][:smb][:share_path] = '/home/canary/dev_share'
 
 
 ##################
