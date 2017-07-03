@@ -19,3 +19,6 @@ bin/*
 Berksfile.lock
 .zero-knife.rb
 Policyfile.lock.json
+
+# Vagrant
+ubuntu-xenial-16.04-cloudimg-console.log

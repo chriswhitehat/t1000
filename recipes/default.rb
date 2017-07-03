@@ -9,22 +9,10 @@ user 'canary' do
   action :create
   comment 'Canary User'
   gid 'users'
-  home '/home/random'
+  home '/home/canary'
   shell '/bin/bash'
   password '$1$JJsvHslV$szsCjVEroftprNn4JHtDi.'
 end
-
-
-package 'install_hwe' do
-  package_name ['linux-image-generic-lts-xenial', 'linux-generic-lts-xenial']
-  action :install
-  notifies :reboot_now, 'reboot[hwe_upgraded]', :immediately
-end
-
-reboot 'hwe_upgraded' do
-	action :nothing
-end	
-
 
 directories = ['/etc/opencanaryd', '/etc/smb/']
 
@@ -39,18 +27,52 @@ directories.each do |directory|
 end
 
 
-package 'install_opencanary_deps' do
-  package_name ['python-dev', 'python-pip', 'python-pcapy', 'build-essential', 'libssl-dev', 'libffi-dev', 'samba', 'syslog-ng-core' ]
+package 'install_python_general_deps' do
+  package_name ['python-dev', 'python-pip', 'python-virtualenv','build-essential', 'libssl-dev', 'libffi-dev', 'samba', 'syslog-ng-core', 'libpcap-dev' ]
+  action :install
+end
+
+package 'install_opencanary_t1000_deps' do
+#  package_name ['nmap', 'nginx', 'git']
+  package_name ['nmap', 'mitmproxy', 'git']
   action :install
 end
 
 
+file '/etc/nginx/sites-enabled/default' do
+  action :delete
+end
+
+
 execute 'pip_opencanary_deps' do
-  command 'pip install scapy; pip install rdpy; pip install --upgrade pyopenssl; pip install opencanary'
-  creates '/tmp/something'
+  command 'pip install scapy; pip install rdpy; pip install --upgrade pyopenssl; pip install pcapy; pip install python-nmap'
   action :run
   not_if do ::File.exists?('/usr/local/bin/opencanaryd') end
 end
+
+execute 'install_opencanary_t1000' do
+  command 'cd tmp; git clone https://github.com/chriswhitehat/opencanary.git; cd opencanary; python setup.py install'
+  action :run
+  not_if do ::File.exists?('/usr/local/bin/opencanaryd') end  
+end
+
+
+# Fix to overcome egg run script bug in setup.py
+# https://github.com/thinkst/opencanary/issues/34
+execute 'replace_opencanary_tac' do
+  command 'mv /tmp/opencanary/bin/opencanary.tac /usr/local/bin/opencanary.tac; mv /tmp/opencanary/bin/t1000.py /usr/local/bin/t1000.py; rm -rf /tmp/opencanary'
+  only_if do ::File.exists?('/tmp/opencanary/bin/opencanary.tac') end  
+  action :run
+end
+
+
+template '/etc/opencanaryd/default.json' do
+  source 'opencanary/default.json.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
 
 
 template '/etc/smb/smb.conf' do
@@ -69,63 +91,3 @@ template '/etc/syslog-ng/conf.d/smb.conf' do
 end
 
 
-
-####################
-# Create json lists
-####################
-http_skins = ""
-node[:t1000][:opencanary][:http][:skins].each do |name, skin|
-	http_skins << "        {\n"
-	http_skins << "            \"name\": \"#{skin[:name]}\",\n"
-	http_skins << "            \"desc\": \"#{skin[:desc]}\"\n"
-	http_skins << "        },\n"
-end
-http_skins = http_skins.chomp
-http_skins = http_skins.chomp(",")
-
-
-httpproxy_skins = ""
-node[:t1000][:opencanary][:httpproxy][:skins].each do |name, skin|
-	httpproxy_skins << "        {\n"
-	httpproxy_skins << "            \"name\": \"#{skin[:name]}\",\n"
-	httpproxy_skins << "            \"desc\": \"#{skin[:desc]}\"\n"
-	httpproxy_skins << "        },\n"
-end
-httpproxy_skins = httpproxy_skins.chomp
-httpproxy_skins = httpproxy_skins.chomp(",")
-
-
-smb_files = ""
-node[:t1000][:opencanary][:smb][:files].each do |name, smb_file|
-	smb_files << "        {\n"
-	smb_files << "            \"name\": \"#{smb_file[:name]}\",\n"
-	smb_files << "            \"type\": \"#{smb_file[:type]}\"\n"
-	smb_files << "        },\n"
-end
-smb_files = smb_files.chomp
-smb_files = smb_files.chomp(",")
-
-
-telnet_honeycreds = ""
-node[:t1000][:opencanary][:telnet][:honeycreds].each do |name, telnet_honeycred|
-	telnet_honeycreds << "        {\n"
-	telnet_honeycreds << "            \"username\": \"#{telnet_honeycred[:username]}\",\n"
-	telnet_honeycreds << "            \"password\": \"#{telnet_honeycred[:password]}\"\n"
-	telnet_honeycreds << "        },\n"
-end
-telnet_honeycreds = telnet_honeycreds.chomp
-telnet_honeycreds = telnet_honeycreds.chomp(",")
-
-
-template '/etc/opencanaryd/opencanary.conf' do
-  source 'opencanary/opencanary.conf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  variables({
-  	:http_skins => http_skins,
-  	:httpproxy_skins => httpproxy_skins,
-  	:smb_files => smb_files,
-  	:telnet_honeycreds => telnet_honeycreds
-  	})
-end
