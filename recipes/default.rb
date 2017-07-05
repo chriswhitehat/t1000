@@ -14,7 +14,7 @@ user 'canary' do
   password '$1$JJsvHslV$szsCjVEroftprNn4JHtDi.'
 end
 
-directories = ['/etc/opencanaryd', '/etc/smb/']
+directories = ['/etc/opencanaryd', '/etc/opencanaryd/ssl', '/etc/smb/']
 
 directories.each do |directory|
 
