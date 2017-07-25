@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "opencanary02" do |opencanary|
-    opencanary.vm.box = "ubuntu/trusty64"
+    opencanary.vm.box = "ubuntu/xenial64"
     opencanary.vm.hostname = "opencanary02"
     opencanary.vm.network "private_network", ip: "192.168.50.11", virtualbox__intnet: "white_network"
     opencanary.vm.network :forwarded_port, guest: 22, host: 22001, id: 'ssh'
