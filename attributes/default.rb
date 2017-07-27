@@ -1,4 +1,11 @@
 ##################
+# SSHD Config
+##################
+default[:t1000][:sshd][:port] = 52222
+default[:t1000][:sshd][:banner][:enabled] = true
+default[:t1000][:sshd][:banner][:path] = "/etc/issue.net"
+
+##################
 # OpenCanary Settings
 ##################
 default[:t1000][:opencanary][:portscan][:synrate] = 5

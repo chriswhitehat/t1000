@@ -4,6 +4,8 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
+#include_recipe 't1000::sshd'
+
 
 user 'canary' do
   action :create
