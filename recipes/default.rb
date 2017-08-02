@@ -28,6 +28,14 @@ directories.each do |directory|
 	end
 end
 
+directory '/var/log/opencanary/' do
+  owner 'root'
+  group 'root'
+  mode '0766'
+  action :create
+end
+
+
 remote_file '/tmp/mitmproxy-2.0.2-linux.tar.gz' do
   owner 'root'
   group 'root'
@@ -45,7 +53,8 @@ end
 
 
 package 'install_python_general_deps' do
-  package_name ['python-dev', 'python-pip', 'python-virtualenv','build-essential', 'libssl-dev', 'libffi-dev', 'samba', 'syslog-ng-core', 'libpcap-dev' ]
+#  package_name ['python-dev', 'python-pip', 'python-virtualenv','build-essential', 'libssl-dev', 'libffi-dev', 'samba', 'syslog-ng-core', 'libpcap-dev' ]
+  package_name ['python-dev', 'python-pip', 'python-virtualenv','build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev' ]
   action :install
 end
 
@@ -56,16 +65,22 @@ package 'install_opencanary_t1000_deps' do
 end
 
 
-file '/etc/nginx/sites-enabled/default' do
-  action :delete
-end
-
+# file '/etc/nginx/sites-enabled/default' do
+#   action :delete
+# end
 
 execute 'pip_opencanary_deps' do
   command 'pip install scapy; pip install rdpy; pip install --upgrade pyopenssl; pip install pcapy; pip install python-nmap'
   action :run
   not_if do ::File.exists?('/usr/local/bin/opencanaryd') end
 end
+
+execute 'upgrade_pips' do
+  command 'pip install --upgrade twisted'
+  action :run
+  not_if do ::File.exists?('/usr/local/bin/opencanaryd') end
+end
+
 
 execute 'install_opencanary_t1000' do
   command 'cd tmp; git clone https://github.com/chriswhitehat/opencanary.git; cd opencanary; python setup.py install'
@@ -92,19 +107,19 @@ end
 
 
 
-template '/etc/smb/smb.conf' do
-  source 'smb/smb.conf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
+# template '/etc/smb/smb.conf' do
+#   source 'smb/smb.conf.erb'
+#   owner 'root'
+#   group 'root'
+#   mode '0644'
+# end
 
 
-template '/etc/syslog-ng/conf.d/smb.conf' do
-  source 'syslog-ng/smb.conf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
+# template '/etc/syslog-ng/conf.d/smb.conf' do
+#   source 'syslog-ng/smb.conf.erb'
+#   owner 'root'
+#   group 'root'
+#   mode '0644'
+# end
 
 
