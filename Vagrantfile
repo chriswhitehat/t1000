@@ -19,13 +19,14 @@ Vagrant.configure("2") do |config|
 
   config.butcher.verify_ssl = false
 
-  config.ssh.guest_port = 52222
+  #config.ssh.guest_port = 52222
+  config.ssh.guest_port = 22
 
   config.vm.define "opencanary01" do |opencanary|
     opencanary.vm.box = "ubuntu/xenial64"
     opencanary.vm.hostname = "opencanary01"
     opencanary.vm.network "private_network", ip: "192.168.50.10", virtualbox__intnet: "white_network"
-    opencanary.vm.network :forwarded_port, guest: 52222, host: 22000, id: 'ssh'
+    opencanary.vm.network :forwarded_port, guest: 22, host: 22000, id: 'ssh'
     config.vm.provider :virtualbox do |vb|
       vb.linked_clone = true
       vb.customize ["modifyvm", :id, "--memory", "1024"]
@@ -47,7 +48,7 @@ Vagrant.configure("2") do |config|
     opencanary.vm.box = "ubuntu/xenial64"
     opencanary.vm.hostname = "opencanary02"
     opencanary.vm.network "private_network", ip: "192.168.50.11", virtualbox__intnet: "white_network"
-    opencanary.vm.network :forwarded_port, guest: 52222, host: 22001, id: 'ssh'
+    opencanary.vm.network :forwarded_port, guest: 22, host: 22001, id: 'ssh'
     config.vm.provider :virtualbox do |vb|
       vb.linked_clone = true
       vb.customize ["modifyvm", :id, "--memory", "1024"]
