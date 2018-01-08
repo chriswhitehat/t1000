@@ -106,7 +106,7 @@ template '/etc/opencanaryd/default.json' do
 end
 
 
-template '/etc/opencanary/t1000.target' do
+template '/etc/opencanaryd/t1000.target' do
   source 't1000.target.erb'
   owner 'root'
   group 'root'
