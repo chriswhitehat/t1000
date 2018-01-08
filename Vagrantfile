@@ -13,13 +13,15 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
 
+  # config.vm.box_download_insecure = true
+  
   config.proxy.http     = "http://proxy.ghc.org:8080"
   config.proxy.https    = "http://proxy.ghc.org:8080"
   config.proxy.no_proxy = "localhost,127.0.0.1,ghc.org"
 
   config.butcher.verify_ssl = false
 
-  #config.ssh.guest_port = 52222
+  config.ssh.guest_port = 52222
   config.ssh.guest_port = 22
 
   config.vm.define "opencanary01" do |opencanary|
@@ -41,6 +43,7 @@ Vagrant.configure("2") do |config|
       client.add_role "base"
       client.add_recipe "t1000"
       client.add_recipe "kp_bro"
+      client.add_recipe "kp_pots::opencanary01"
     end
   end
 

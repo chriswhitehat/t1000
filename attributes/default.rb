@@ -1,4 +1,9 @@
 ##################
+# Target to Impersonate
+##################
+default[:t1000][:target] = 'localhost'
+
+##################
 # SSHD Config
 ##################
 default[:t1000][:sshd][:port] = 52222
