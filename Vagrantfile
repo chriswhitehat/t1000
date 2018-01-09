@@ -41,8 +41,6 @@ Vagrant.configure("2") do |config|
       client.validation_client_name = "ghc-validator"
       client.validation_key_path = "../../.chef/ghc-validator.pem"
       client.add_role "base"
-      client.add_recipe "t1000"
-      client.add_recipe "kp_bro"
       client.add_recipe "kp_pots::opencanary01"
     end
   end
