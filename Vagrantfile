@@ -42,6 +42,7 @@ Vagrant.configure("2") do |config|
       client.validation_key_path = "../../.chef/ghc-validator.pem"
       client.add_role "base"
       client.add_recipe "kp_pots::opencanary01"
+      client.add_recipe "kp_splunk"
     end
   end
 
