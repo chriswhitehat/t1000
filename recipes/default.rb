@@ -115,7 +115,7 @@ template '/etc/opencanaryd/t1000.target' do
 end
 
 execute 'scan_target' do
-  command "python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+  command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
   action :nothing
 end
 
