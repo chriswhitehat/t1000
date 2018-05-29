@@ -15,10 +15,6 @@ Vagrant.configure("2") do |config|
 
   # config.vm.box_download_insecure = true
   
-  config.proxy.http     = "http://proxy.ghc.org:8080"
-  config.proxy.https    = "http://proxy.ghc.org:8080"
-  config.proxy.no_proxy = "localhost,127.0.0.1,ghc.org"
-
   config.butcher.verify_ssl = false
 
   config.ssh.guest_port = 52222
@@ -37,12 +33,10 @@ Vagrant.configure("2") do |config|
     end
 
     opencanary.vm.provision "chef_client" do |client|
-      client.chef_server_url = "https://esa-ir-dca.ghc.org/organizations/ghc"
-      client.validation_client_name = "ghc-validator"
-      client.validation_key_path = "../../.chef/ghc-validator.pem"
-      client.add_role "base"
-      client.add_recipe "kp_pots::opencanary01"
-      client.add_recipe "kp_splunk"
+      client.chef_server_url = "https://eng0/organizations/whitehouse"
+      client.validation_client_name = "cmwhite"
+      client.validation_key_path = "../../.chef/whitehouse.pem"
+      client.add_recipe "pots::opencanary01"
     end
   end
 
@@ -59,13 +53,10 @@ Vagrant.configure("2") do |config|
     end
 
     opencanary.vm.provision "chef_client" do |client|
-      client.chef_server_url = "https://esa-ir-dca.ghc.org/organizations/ghc"
-      client.validation_client_name = "ghc-validator"
-      client.validation_key_path = "../../.chef/ghc-validator.pem"
-      client.add_role "base"
+      client.chef_server_url = "https://eng0/organizations/whitehouse"
+      client.validation_client_name = "cmwhite"
+      client.validation_key_path = "../../.chef/whitehouse.pem"
       client.add_recipe "t1000"
-      client.add_recipe "kp_bro"
-
     end
   end
 end
