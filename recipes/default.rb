@@ -7,25 +7,44 @@
 #include_recipe 't1000::sshd'
 
 
-user 'canary' do
-  action :create
-  comment 'Canary User'
-  gid 'users'
-  home '/home/canary'
-  shell '/bin/bash'
-  password '$1$JJsvHslV$szsCjVEroftprNn4JHtDi.'
+
+python_runtime '2'
+
+
+package 'install_deps' do
+  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git' ]
+  action :install
 end
+
+python_package 'install_python_deps' do
+  package_name ['scapy', 'rdpy']
+end
+
+python_package 'upgrade_python_deps' do
+  package_name ['pyopenssl']
+  action :upgrade
+end
+
+python_package 'install_python_deps2' do 
+  package_name ['pcapy', 'python-nmap']
+end
+
+python_package 'upgrade_python_deps2' do
+  package_name ['twisted']
+  action :upgrade
+end
+
 
 directories = ['/etc/opencanaryd', '/etc/opencanaryd/ssl', '/etc/smb/']
 
 directories.each do |directory|
 
-	directory "#{directory}" do
-	  owner 'root'
-	  group 'root'
-	  mode '0755'
-	  action :create
-	end
+  directory "#{directory}" do
+    owner 'root'
+    group 'root'
+    mode '0755'
+    action :create
+  end
 end
 
 directory '/var/log/opencanary/' do
@@ -33,6 +52,16 @@ directory '/var/log/opencanary/' do
   group 'root'
   mode '0766'
   action :create
+end
+
+
+user 'canary' do
+  action :create
+  comment 'Canary User'
+  gid 'users'
+  home '/home/canary'
+  shell '/bin/bash'
+  password '$1$JJsvHslV$szsCjVEroftprNn4JHtDi.'
 end
 
 
@@ -52,34 +81,6 @@ execute 'extract_mitmproxy' do
 end
 
 
-package 'install_python_general_deps' do
-#  package_name ['python-dev', 'python-pip', 'python-virtualenv','build-essential', 'libssl-dev', 'libffi-dev', 'samba', 'syslog-ng-core', 'libpcap-dev' ]
-  package_name ['python-dev', 'python-pip', 'python-virtualenv','build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev' ]
-  action :install
-end
-
-package 'install_opencanary_t1000_deps' do
-#  package_name ['nmap', 'nginx', 'git']
-  package_name ['nmap', 'git']
-  action :install
-end
-
-
-# file '/etc/nginx/sites-enabled/default' do
-#   action :delete
-# end
-
-execute 'pip_opencanary_deps' do
-  command 'pip install scapy; pip install rdpy; pip install --upgrade pyopenssl; pip install pcapy; pip install python-nmap'
-  action :run
-  not_if do ::File.exists?('/usr/local/bin/opencanaryd') end
-end
-
-execute 'upgrade_pips' do
-  command 'pip install --upgrade twisted'
-  action :run
-  not_if do ::File.exists?('/usr/local/bin/opencanaryd') end
-end
 
 
 execute 'install_opencanary_t1000' do
