@@ -103,7 +103,7 @@ end
 #   command 'cd tmp; git clone https://github.com/chriswhitehat/opencanary.git; cd opencanary; python setup.py install'
 #   action :run
 #   not_if do ::File.exists?('/usr/local/bin/opencanaryd') end  
-end
+#end
 
 
 # Fix to overcome egg run script bug in setup.py
