@@ -1,3 +1,14 @@
+#########################
+# Management Interface
+#########################
+default[:t1000][:mgmt][:configure] = false
+default[:t1000][:mgmt][:interface] = 'eth0'
+default[:t1000][:mgmt][:ipv4] = '127.0.0.1'
+default[:t1000][:mgmt][:netmask] = '255.255.255.0'
+default[:t1000][:mgmt][:gateway] = '127.0.0.1'
+default[:t1000][:mgmt][:nameserver] = '127.0.0.1'
+default[:t1000][:mgmt][:domain] = 'example.com'
+
 ##################
 # Target to Impersonate
 ##################
@@ -6,6 +17,7 @@ default[:t1000][:target] = 'localhost'
 ##################
 # SSHD Config
 ##################
+default[:t1000][:sshd][:enabled] = true
 default[:t1000][:sshd][:port] = 52222
 default[:t1000][:sshd][:banner][:enabled] = true
 default[:t1000][:sshd][:banner][:path] = "/etc/issue.net"

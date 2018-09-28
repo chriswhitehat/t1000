@@ -16,6 +16,7 @@ cookbook_file '/etc/issue.net' do
   group 'root'
 end
 
+
 template "/etc/ssh/sshd_config" do
   source "sshd_config.erb"
   owner 'root'
@@ -24,6 +25,13 @@ template "/etc/ssh/sshd_config" do
   notifies :restart, 'service[ssh]', :delayed
 end
 
+
+if default[:t1000][:sshd][:enabled]
+  ssh_service_action = ['enable', 'start']
+else
+  ssh_service_action = ['stop', 'disable']
+end
+
 service 'ssh' do
-	action :nothing
+  action ssh_service_action
 end
