@@ -97,6 +97,7 @@ bash 'install_opencanary' do
   code <<-EOH
     python setup.py install
     EOH
+  action :nothing
 end
 
 # execute 'install_opencanary_t1000' do
