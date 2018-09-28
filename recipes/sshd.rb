@@ -26,7 +26,7 @@ template "/etc/ssh/sshd_config" do
 end
 
 
-if default[:t1000][:sshd][:enabled]
+if node[:t1000][:sshd][:enabled]
   ssh_service_action = ['enable', 'start']
 else
   ssh_service_action = ['stop', 'disable']
