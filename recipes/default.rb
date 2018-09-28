@@ -111,7 +111,7 @@ end
 # Fix to overcome egg run script bug in setup.py
 # https://github.com/thinkst/opencanary/issues/34
 execute 'replace_opencanary_tac' do
-  command 'mv /tmp/opencanary/bin/opencanary.tac /usr/local/bin/opencanary.tac; mv /tmp/opencanary/bin/t1000.py /usr/local/bin/t1000.py; rm -rf /tmp/opencanary'
+  command "mv #{Chef::Config[:file_cache_path]}/opencanary/bin/opencanary.tac /usr/local/bin/opencanary.tac; mv #{Chef::Config[:file_cache_path]}/opencanary/bin/t1000.py /usr/local/bin/t1000.py;"
   #only_if do ::File.exists?('/tmp/opencanary/bin/opencanary.tac') end  
   action :nothing
 end
