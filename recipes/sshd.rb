@@ -22,7 +22,7 @@ template "/etc/ssh/sshd_config" do
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :restart, 'service[ssh]', :delayed
+  notifies :restart, 'service[ssh]', :immediately
 end
 
 
