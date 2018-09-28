@@ -14,13 +14,6 @@ default[:t1000][:mgmt][:domain] = 'example.com'
 ##################
 default[:t1000][:target] = 'localhost'
 
-##################
-# SSHD Config
-##################
-default[:t1000][:sshd][:enabled] = true
-default[:t1000][:sshd][:port] = 52222
-default[:t1000][:sshd][:banner][:enabled] = true
-default[:t1000][:sshd][:banner][:path] = "/etc/issue.net"
 
 ##################
 # OpenCanary Settings
