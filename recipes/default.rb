@@ -83,11 +83,26 @@ end
 
 
 
+git "#{Chef::Config[:file_cache_path]}/opencanary" do
+  repository 'https://github.com/chriswhitehat/opencanary.git'
+  reference 'master'
+  action :sync
+  notifies :run, 'bash[install_opencanary]'
+end
 
-execute 'install_opencanary_t1000' do
-  command 'cd tmp; git clone https://github.com/chriswhitehat/opencanary.git; cd opencanary; python setup.py install'
-  action :run
-  not_if do ::File.exists?('/usr/local/bin/opencanaryd') end  
+bash 'install_opencanary' do
+  cwd "#{Chef::Config[:file_cache_path]}/opencanary"
+  user 'root'
+  group 'root'
+  code <<-EOH
+    python setup.py install
+    EOH
+end
+
+# execute 'install_opencanary_t1000' do
+#   command 'cd tmp; git clone https://github.com/chriswhitehat/opencanary.git; cd opencanary; python setup.py install'
+#   action :run
+#   not_if do ::File.exists?('/usr/local/bin/opencanaryd') end  
 end
 
 
