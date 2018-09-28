@@ -5,7 +5,8 @@ license 'All Rights Reserved'
 description 'Installs/Configures t1000'
 long_description 'Installs/Configures t1000'
 
-version '0.4.0'
+version '0.4.1'
+
 chef_version '>= 12.1' if respond_to?(:chef_version)
 
 depends 'poise-python', '1.7.0'
