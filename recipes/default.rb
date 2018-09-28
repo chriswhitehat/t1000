@@ -88,6 +88,7 @@ git "#{Chef::Config[:file_cache_path]}/opencanary" do
   reference 'master'
   action :sync
   notifies :run, 'bash[install_opencanary]'
+  notifies :run, 'execute[replace_opencanary_tac]'
 end
 
 bash 'install_opencanary' do
@@ -111,8 +112,8 @@ end
 # https://github.com/thinkst/opencanary/issues/34
 execute 'replace_opencanary_tac' do
   command 'mv /tmp/opencanary/bin/opencanary.tac /usr/local/bin/opencanary.tac; mv /tmp/opencanary/bin/t1000.py /usr/local/bin/t1000.py; rm -rf /tmp/opencanary'
-  only_if do ::File.exists?('/tmp/opencanary/bin/opencanary.tac') end  
-  action :run
+  #only_if do ::File.exists?('/tmp/opencanary/bin/opencanary.tac') end  
+  action :nothing
 end
 
 
