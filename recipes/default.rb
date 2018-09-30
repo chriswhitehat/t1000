@@ -13,7 +13,7 @@ template '/etc/timezone' do
 end
 
 execute 'set-timezone' do
-  command 'dpkg-reconfigure --frontend noninteractive tzdata'
+  command 'timedatectl sete-timezone UTC'
   action :nothing
 end
 
