@@ -13,7 +13,7 @@ template '/etc/timezone' do
 end
 
 execute 'set-timezone' do
-  command 'timedatectl sete-timezone UTC'
+  command "timedatectl set-timezone #{ node['t1000']['timezone'] }"
   action :nothing
 end
 
