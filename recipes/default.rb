@@ -4,6 +4,18 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
+template '/etc/timezone' do
+  source 'timezone.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
+  notifies :run, 'execute[set-timezone]', :immediately
+end
+
+execute 'set-timezone' do
+  command 'dpkg-reconfigure --frontend noninteractive tzdata'
+  action :nothing
+end
 
 python_runtime '2'
 

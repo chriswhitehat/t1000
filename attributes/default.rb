@@ -1,4 +1,9 @@
 #########################
+# Timezone
+#########################
+default[:t1000][:timezone] = 'Etc/UTC'
+
+#########################
 # Management Interface
 #########################
 default[:t1000][:mgmt][:configure] = false
