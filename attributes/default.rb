@@ -1,7 +1,7 @@
 #########################
 # Timezone
 #########################
-default[:t1000][:timezone] = 'Etc/UTC'
+default[:t1000][:timezone] = 'UTC'
 
 #########################
 # Management Interface
