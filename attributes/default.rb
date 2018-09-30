@@ -1,4 +1,10 @@
 #########################
+# Device Node ID
+#########################
+# Data Center, Logical Zone, Environment (dev/prod), target to mimic, id
+default[:t1000][:node_id] = 'DC_ZONE_ENV_random_001'
+
+#########################
 # Timezone
 #########################
 default[:t1000][:timezone] = 'UTC'
