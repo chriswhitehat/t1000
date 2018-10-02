@@ -4,6 +4,16 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
+
+if node[:t1000][:mgmt][:configure]
+  template "/etc/network/interfaces.d/#{node[:t1000][:mgmt][:interface]}" do
+    source 'interface.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
+end
+
 template '/etc/timezone' do
   source 'timezone.erb'
   mode '0644'
@@ -133,18 +143,6 @@ template '/etc/opencanaryd/default.json' do
 end
 
 
-template '/etc/opencanaryd/t1000.target' do
-  source 't1000.target.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :run, 'execute[scan_target]', :immediately
-end
-
-execute 'scan_target' do
-  command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
-  action :nothing
-end
 
 cron 't1000_patrol' do
   minute '*/5'
@@ -152,14 +150,29 @@ cron 't1000_patrol' do
   command '/usr/bin/python /usr/local/bin/t1000.py --patrol --conf /etc/opencanaryd/t1000.conf'
 end
 
-cron 't1000_scan' do
-  minute '0'
-  hour '8'
-  weekday '1'
-  path "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-  command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
-end
+unless ['random', 'custom'].include?(node[:t1000][:target].lower())
 
+  template '/etc/opencanaryd/t1000.target' do
+    source 't1000.target.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    notifies :run, 'execute[scan_target]', :immediately
+  end
+
+  execute 'scan_target' do
+    command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+    action :nothing
+  end
+
+  cron 't1000_scan' do
+    minute '0'
+    hour '8'
+    weekday '1'
+    path "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+    command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+  end
+end
 
 
 # template '/etc/smb/smb.conf' do

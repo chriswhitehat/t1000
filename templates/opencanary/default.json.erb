@@ -1,5 +1,5 @@
 {
-    "device.node_id": "<%= node[:t1000][:node_id] %>",
+    "device.node_id": "<%=default[:t1000][:data_center] %>_<%=default[:t1000][:logical_zone] %>_<%=default[:t1000][:environment] %>_<%=default[:t1000][:id_num] %>",
     "ftp.banner": "FTP server ready",
     "ftp.enabled": false,
     "ftp.port": 21,
