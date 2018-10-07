@@ -150,7 +150,7 @@ cron 't1000_patrol' do
   command '/usr/bin/python /usr/local/bin/t1000.py --patrol --conf /etc/opencanaryd/t1000.conf'
 end
 
-unless ['random', 'custom'].include?(node[:t1000][:target].lower())
+if node[:t1000][:target].downcase != 'custom'
 
   template '/etc/opencanaryd/t1000.target' do
     source 't1000.target.erb'
