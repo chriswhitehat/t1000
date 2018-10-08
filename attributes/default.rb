@@ -29,11 +29,17 @@ default[:t1000][:mgmt][:domain] = 'example.com'
 default[:t1000][:target] = 'localhost'
 
 
+
 ##################
 # OpenCanary Settings
 ##################
 default[:t1000][:opencanary][:portscan][:synrate] = 5
 default[:t1000][:opencanary][:logger][:file][:path] = '/var/log/opencanary.log'
+
+##################
+# Geneirc TCP Pot
+##################
+default[:t1000][:opencanary][:generictcp][:blacklist] = [ 139 ]
 
 ##################
 # FTP Pot

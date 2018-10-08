@@ -1,5 +1,7 @@
 {
     "device.node_id": "<%= node[:fqdn] %>",
+    "device.interface": "<%= node[:t1000][:mgmt][:interface] %>",
+    "generictcp.blacklist": <%= node[:t1000][:opencanary][:generictcp][:blacklist] %>,
     "ftp.banner": "<%= node[:t1000][:opencanary][:ftp][:banner] %>",
     "ftp.enabled": <%= node[:t1000][:opencanary][:ftp][:enabled] %>,
     "ftp.port": <%= node[:t1000][:opencanary][:ftp][:port] %>,

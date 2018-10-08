@@ -1,6 +1,7 @@
 {
     "device.node_id": "<%= node[:t1000][:data_center] %>_<%= node[:t1000][:logical_zone] %>_<%= node[:t1000][:environment] %>_<%= node[:t1000][:target] %>_<%= node[:t1000][:id_num] %>",
     "device.interface": "<%= node[:t1000][:mgmt][:interface] %>",
+    "generictcp.blacklist": [139],
     "ftp.banner": "FTP server ready",
     "ftp.enabled": false,
     "ftp.port": 21,
