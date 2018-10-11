@@ -31,7 +31,7 @@ python_runtime '2'
 
 
 package 'install_deps' do
-  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git' ]
+  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger']
   action :install
 end
 
@@ -61,7 +61,7 @@ directories.each do |directory|
   directory "#{directory}" do
     owner 'root'
     group 'root'
-    mode '0755'
+    mode '0766'
     action :create
   end
 end
