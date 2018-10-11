@@ -61,7 +61,7 @@ directories.each do |directory|
   directory "#{directory}" do
     owner 'root'
     group 'root'
-    mode '0766'
+    mode '0755'
     action :create
   end
 end
@@ -69,7 +69,7 @@ end
 directory '/var/log/opencanary/' do
   owner 'root'
   group 'root'
-  mode '0766'
+  mode '0755'
   action :create
 end
 
