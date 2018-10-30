@@ -27,13 +27,14 @@ execute 'set-timezone' do
   action :nothing
 end
 
-python_runtime '2'
-
 
 package 'install_deps' do
-  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger']
+  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger', 'python-setuptools']
   action :install
 end
+
+python_runtime '2'
+
 
 python_package 'install_python_deps' do
   package_name ['scapy', 'rdpy']
