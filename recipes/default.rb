@@ -27,14 +27,15 @@ execute 'set-timezone' do
   action :nothing
 end
 
-
-package 'install_deps' do
-  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger', 'python-setuptools']
-  action :install
+python_runtime '2' do
+  pip_version '18.0'
 end
 
-python_runtime '2'
 
+package 'install_deps' do
+  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger']
+  action :install
+end
 
 python_package 'install_python_deps' do
   package_name ['scapy', 'rdpy']
