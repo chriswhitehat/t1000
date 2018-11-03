@@ -5,7 +5,7 @@ license 'All Rights Reserved'
 description 'Installs/Configures t1000'
 long_description 'Installs/Configures t1000'
 
-version '0.9.7'
+version '0.9.8'
 
 chef_version '>= 12.1' if respond_to?(:chef_version)
 

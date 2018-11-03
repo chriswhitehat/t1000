@@ -191,6 +191,12 @@ if node[:t1000][:target].downcase != 'custom'
 end
 
 
+execute 'initial_scan_target' do
+  command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+  only_if do ::File.exists?('/etc/opencanaryd/opencanary.conf') end
+  action :run
+end
+
 # template '/etc/smb/smb.conf' do
 #   source 'smb/smb.conf.erb'
 #   owner 'root'
