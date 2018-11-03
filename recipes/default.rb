@@ -27,6 +27,19 @@ execute 'set-timezone' do
   action :nothing
 end
 
+execute 'initial_upgrade' do
+  command 'apt-get update; apt-get -y upgrade; apt-get -y dist-upgrade'
+  not_if do ::File.exists?('/etc/opencanaryd/opencanary.conf') end
+  action :run
+  notifies :reboot_now, 'reboot[initial_upgrade_reboot]'
+end
+
+reboot 'initial_upgrade_reboot' do
+  reason 'Cannot continue Chef run without a reboot.'
+  action :nothing
+end
+
+
 python_runtime '2' do
   pip_version '18.0'
   get_pip_url 'https://github.com/pypa/get-pip/raw/f88ab195ecdf2f0001ed21443e247fb32265cabb/get-pip.py'
