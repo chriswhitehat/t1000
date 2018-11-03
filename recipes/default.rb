@@ -29,7 +29,7 @@ end
 
 execute 'initial_upgrade' do
   command 'apt-get update; apt-get -y upgrade; apt-get -y dist-upgrade'
-  not_if do ::File.exists?('/etc/opencanaryd/opencanary.conf') end
+  not_if do ::File.exists?('/etc/opencanaryd/t1000.target') end
   action :run
   notifies :reboot_now, 'reboot[initial_upgrade_reboot]'
 end
