@@ -27,17 +27,17 @@ execute 'set-timezone' do
   action :nothing
 end
 
-execute 'initial_upgrade' do
-  command "apt-get update; apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade; apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"
-  not_if do ::File.exists?('/etc/opencanaryd/t1000.target') end
-  action :run
-  notifies :reboot_now, 'reboot[initial_upgrade_reboot]'
-end
+# execute 'initial_upgrade' do
+#   command "apt-get update; apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade; apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"
+#   not_if do ::File.exists?('/etc/opencanaryd/t1000.target') end
+#   action :run
+#   notifies :reboot_now, 'reboot[initial_upgrade_reboot]'
+# end
 
-reboot 'initial_upgrade_reboot' do
-  reason 'Cannot continue Chef run without a reboot.'
-  action :nothing
-end
+# reboot 'initial_upgrade_reboot' do
+#   reason 'Cannot continue Chef run without a reboot.'
+#   action :nothing
+# end
 
 
 python_runtime '2' do
