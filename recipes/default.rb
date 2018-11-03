@@ -160,7 +160,7 @@ if node[:t1000][:target].downcase != 'custom'
     owner 'root'
     group 'root'
     mode '0644'
-    notifies :run, 'execute[scan_target]', :immediately
+    notifies :run, 'execute[scan_target]', :delayed
   end
 
   execute 'scan_target' do
