@@ -121,8 +121,8 @@ git "#{Chef::Config[:file_cache_path]}/opencanary" do
   repository 'https://github.com/chriswhitehat/opencanary.git'
   reference 'master'
   action :sync
-  notifies :run, 'bash[install_opencanary]'
-  notifies :run, 'execute[replace_opencanary_tac]'
+  notifies :run, 'bash[install_opencanary]', :immediately
+  notifies :run, 'execute[replace_opencanary_tac]', :immediately
 end
 
 bash 'install_opencanary' do
