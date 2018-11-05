@@ -104,7 +104,7 @@ remote_file '/tmp/mitmproxy-2.0.2-linux.tar.gz' do
   owner 'root'
   group 'root'
   mode '0644'
-  source 'https://github.com/mitmproxy/mitmproxy/releases/download/v2.0.2/mitmproxy-2.0.2-linux.tar.gz'
+  source 'http://github.com/mitmproxy/mitmproxy/releases/download/v2.0.2/mitmproxy-2.0.2-linux.tar.gz'
   checksum '6da28a8fa67de25c3d753b34524b8a49156e82a5f25f23989b1ebb386f29574f'
   not_if do ::File.exists?('/usr/local/bin/mitmproxy') end
   notifies :run, 'execute[extract_mitmproxy]', :immediately
@@ -118,7 +118,7 @@ end
 
 
 git "#{Chef::Config[:file_cache_path]}/opencanary" do
-  repository 'https://github.com/chriswhitehat/opencanary.git'
+  repository 'http://github.com/chriswhitehat/opencanary.git'
   reference 'master'
   action :sync
   notifies :run, 'bash[install_opencanary]', :immediately
