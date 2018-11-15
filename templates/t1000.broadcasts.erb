@@ -1,6 +1,6 @@
-<% node[:network][:interfaces].each |interface| do%>
+<% node[:network][:interfaces].each do |interface| %>
 <% if interface[:state] == up %>
-<% interface[:addresses].each |address| do %>
+<% interface[:addresses].each do |address| %>
 <% if address[:broadcast] %>
 <%= address[:broadcast] %>
 <% end %>
