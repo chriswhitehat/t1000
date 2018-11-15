@@ -1,0 +1,9 @@
+<% node[:network][:interfaces].each |interface| do%>
+<% if interface[:state] == up %>
+<% interface[:addresses].each |address| do %>
+<% if address[:broadcast] %>
+<%= address[:broadcast] %>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
