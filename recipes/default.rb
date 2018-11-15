@@ -178,7 +178,7 @@ end
 cron 't1000_respondered' do
   minute '*/5'
   path "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-  command 'sleep $(expr $RANDOM \% 300); /usr/bin/python /usr/local/bin/t1000.py --respondered'
+  command '/bin/sleep $(expr $RANDOM \% 300); /usr/bin/python /usr/local/bin/t1000.py --respondered'
 end
 
 
