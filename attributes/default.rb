@@ -17,11 +17,11 @@ default[:t1000][:timezone] = 'UTC'
 #########################
 default[:t1000][:mgmt][:configure] = false
 default[:t1000][:mgmt][:interface] = 'eth0'
-default[:t1000][:mgmt][:ipv4] = '127.0.0.1'
+default[:t1000][:mgmt][:address] = '127.0.0.1'
 default[:t1000][:mgmt][:netmask] = '255.255.255.0'
 default[:t1000][:mgmt][:gateway] = '127.0.0.1'
-default[:t1000][:mgmt][:nameserver] = '127.0.0.1'
-default[:t1000][:mgmt][:domain] = 'example.com'
+default[:t1000][:mgmt]['dns-nameservers'] = '127.0.0.1'
+default[:t1000][:mgmt]['dns-search'] = 'example.com'
 
 ##################
 # Target to Impersonate
