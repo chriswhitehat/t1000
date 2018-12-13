@@ -222,7 +222,7 @@ end
 
 
 execute 'initial_scan_target' do
-  command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+  command "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}'"
   not_if do ::File.exists?('/etc/opencanaryd/opencanary.conf') end
   action :run
 end
