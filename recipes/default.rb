@@ -48,10 +48,10 @@ end
 # end
 
 
-python_runtime '2' do
-  pip_version '18.0'
-  get_pip_url 'https://github.com/pypa/get-pip/raw/f88ab195ecdf2f0001ed21443e247fb32265cabb/get-pip.py'
-end
+# python_runtime '2' do
+#   pip_version '18.0'
+#   get_pip_url 'https://github.com/pypa/get-pip/raw/f88ab195ecdf2f0001ed21443e247fb32265cabb/get-pip.py'
+# end
 
 # python_runtime '2' 
 
@@ -61,23 +61,29 @@ package 'install_deps' do
   action :install
 end
 
-python_package 'install_python_deps' do
-  package_name ['scapy', 'rdpy']
+# python_package 'install_python_deps' do
+#   package_name ['scapy', 'rdpy']
+# end
+
+# python_package 'upgrade_python_deps' do
+#   package_name ['pyopenssl']
+#   action :upgrade
+# end
+
+# python_package 'install_python_deps2' do 
+#   package_name ['pcapy', 'python-nmap']
+# end
+
+# python_package 'upgrade_python_deps2' do
+#   package_name ['twisted']
+#   action :upgrade
+# end
+
+package 'install_python_deps' do
+  package_name ['python-scapy', 'python-pcapy', 'python-nmap', 'python-twisted']
+  action :install
 end
 
-python_package 'upgrade_python_deps' do
-  package_name ['pyopenssl']
-  action :upgrade
-end
-
-python_package 'install_python_deps2' do 
-  package_name ['pcapy', 'python-nmap']
-end
-
-python_package 'upgrade_python_deps2' do
-  package_name ['twisted']
-  action :upgrade
-end
 
 
 directories = ['/etc/opencanaryd', '/etc/opencanaryd/ssl', '/etc/smb/']

@@ -5,11 +5,11 @@ license 'All Rights Reserved'
 description 'Installs/Configures t1000'
 long_description 'Installs/Configures t1000'
 
-version '0.14.3'
+version '0.15.0'
 
 chef_version '>= 12.1' if respond_to?(:chef_version)
 
-depends 'poise-python', '1.7.0'
+#depends 'poise-python', '1.7.0'
 
 # The `issues_url` points to the location where issues for this cookbook are
 # tracked.  A `View Issues` link will be displayed on this cookbook's page when
