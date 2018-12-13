@@ -207,7 +207,7 @@ if node[:t1000][:target].downcase != 'custom'
   end
 
   execute 'scan_target' do
-    command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+    command "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}'"
     action :nothing
   end
 
@@ -216,7 +216,7 @@ if node[:t1000][:target].downcase != 'custom'
     hour '8'
     weekday '1'
     path "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-    command "/usr/bin/python /usr/local/bin/t1000.py --scan --target '#{node[:t1000][:target]}'"
+    command "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}'"
   end
 end
 
