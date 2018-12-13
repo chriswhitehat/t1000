@@ -57,7 +57,7 @@ end
 
 
 package 'install_deps' do
-  package_name ['python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger']
+  package_name ['python-setuptools', 'python-dev', 'build-essential', 'libssl-dev', 'libffi-dev', 'syslog-ng-core', 'libpcap-dev', 'nmap', 'git', 'macchanger']
   action :install
 end
 
