@@ -157,6 +157,7 @@ default[:t1000][:opencanary][:telnet][:honeycreds][:admin1][:password] = 'admin1
 # MSSQL Pot
 ##################
 default[:t1000][:opencanary][:mssql][:enabled] = 'false'
+default[:t1000][:opencanary][:mssql][:version] = '2012'
 
 
 ##################
