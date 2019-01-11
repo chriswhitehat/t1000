@@ -211,6 +211,13 @@ end
 
 if node[:t1000][:target].downcase != 'custom'
 
+
+  if node[:t1000][:target].downcase == 'random_sticky':
+    initial_scan_command = "/usr/bin/python /usr/local/bin/t1000.py --scan --forcerand --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
+  else
+    initial_scan_command = "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
+  end
+
   template '/etc/opencanaryd/t1000.target' do
     source 't1000.target.erb'
     owner 'root'
@@ -220,7 +227,7 @@ if node[:t1000][:target].downcase != 'custom'
   end
 
   execute 'scan_target' do
-    command "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
+    command initial_scan_command
     action :nothing
   end
 
