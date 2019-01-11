@@ -151,12 +151,11 @@ bash 'install_opencanary' do
   action :nothing
 end
 
-# execute 'install_opencanary_t1000' do
-#   command 'cd tmp; git clone https://github.com/chriswhitehat/opencanary.git; cd opencanary; python setup.py install'
-#   action :run
-#   not_if do ::File.exists?('/usr/local/bin/opencanaryd') end  
-#end
-
+if node[:t1000][:target].downcase == 'random-sticky'
+  initial_scan_command = "/usr/bin/python /usr/local/bin/t1000.py --scan --forcerand --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
+else
+  initial_scan_command = "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
+end
 
 # Fix to overcome egg run script bug in setup.py
 # https://github.com/thinkst/opencanary/issues/34
@@ -185,6 +184,7 @@ template '/etc/opencanaryd/default.json' do
   owner 'root'
   group 'root'
   mode '0644'
+  notifies :run, 'execute[scan_target]', :delayed
 end
 
 
@@ -212,12 +212,6 @@ end
 if node[:t1000][:target].downcase != 'custom'
 
 
-  if node[:t1000][:target].downcase == 'random-sticky'
-    initial_scan_command = "/usr/bin/python /usr/local/bin/t1000.py --scan --forcerand --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
-  else
-    initial_scan_command = "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}' --conf /etc/opencanaryd/t1000.conf"
-  end
-
   template '/etc/opencanaryd/t1000.target' do
     source 't1000.target.erb'
     owner 'root'
@@ -240,12 +234,6 @@ if node[:t1000][:target].downcase != 'custom'
   end
 end
 
-
-execute 'initial_scan_target' do
-  command "/usr/bin/python /usr/local/bin/t1000.py --scan --iface '#{node[:t1000][:mgmt][:interface]}' --target '#{node[:t1000][:target]}'"
-  not_if do ::File.exists?('/etc/opencanaryd/opencanary.conf') end
-  action :run
-end
 
 # template '/etc/smb/smb.conf' do
 #   source 'smb/smb.conf.erb'
