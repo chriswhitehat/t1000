@@ -166,6 +166,19 @@ execute 'replace_opencanary_tac' do
   action :nothing
 end
 
+logrotate_app 'opencanary_logs' do
+  path      '/var/log/opencanary/opencanary.log'
+  frequency 'daily'
+  rotate    10
+  create    '644 root root'
+end
+
+logrotate_app 'respondered_logs' do
+  path      '/var/log/opencanary/respondered.log'
+  frequency 'daily'
+  rotate    10
+  create    '644 root root'
+end
 
 template '/etc/opencanaryd/default.json' do
   source 'opencanary/default.json.erb'
