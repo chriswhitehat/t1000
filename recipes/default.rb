@@ -241,8 +241,6 @@ execute 'restart_opencanary' do
   action :nothing
 end
 
-execute restart_opencanary
-
 # template '/etc/smb/smb.conf' do
 #   source 'smb/smb.conf.erb'
 #   owner 'root'
