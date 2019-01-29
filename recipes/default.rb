@@ -139,6 +139,7 @@ git "#{Chef::Config[:file_cache_path]}/opencanary" do
   action :sync
   notifies :run, 'bash[install_opencanary]', :immediately
   notifies :run, 'execute[replace_opencanary_tac]', :immediately
+  notifies :run, 'execute[restart_opencanary]', :delayed
 end
 
 bash 'install_opencanary' do
@@ -234,6 +235,13 @@ if node[:t1000][:target].downcase != 'custom'
   end
 end
 
+
+execute 'restart_opencanary' do
+  command '/usr/local/bin/opencanaryd --stop; sleep 5; /usr/local/bin/opencanaryd --start'
+  action :nothing
+end
+
+execute restart_opencanary
 
 # template '/etc/smb/smb.conf' do
 #   source 'smb/smb.conf.erb'
